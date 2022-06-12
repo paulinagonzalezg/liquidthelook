@@ -45,7 +45,7 @@ view: users {
       icon_url: "http://www.google.com/s2/favicons?domain=www.{{ value | url_encode }}.com"
     }
   }
-  #Changed HTML liquid-paulinag (- works and not _, even if name was already changed)
+  #Lab 1:Changed HTML liquid-paulinag (- works and not _, even if name was already changed)
   dimension: order_history_button {
     label: "Order History"
     sql: ${TABLE}.id ;;
@@ -55,6 +55,17 @@ view: users {
     type: string
     map_layer_name: countries
     sql: ${TABLE}.country ;;
+  }
+  #Lab 1: same name logic link applies with the "order history button"
+  dimension: state_link {
+    type: string
+    sql: ${TABLE}.state ;;
+    map_layer_name: us_states
+    html: {% if _explore._name == "order_items" %}
+          <a href="/explore/liquid-paulinag/order_items?fields=order_items.detail*&f[users.state]= {{ value }}">{{ value }}</a>
+        {% else %}
+          <a href="/explore/liquid-paulinag/users?fields=users.detail*&f[users.state]={{ value }}">{{ value }}</a>
+        {% endif %} ;;
   }
 
   # Dates and timestamps can be represented in Looker using a dimension group of type: time.
