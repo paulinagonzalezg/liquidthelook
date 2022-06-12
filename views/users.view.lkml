@@ -45,6 +45,12 @@ view: users {
       icon_url: "http://www.google.com/s2/favicons?domain=www.{{ value | url_encode }}.com"
     }
   }
+  #Changed HTML liquid-paulinag (- works and not _, even if name was already changed)
+  dimension: order_history_button {
+    label: "Order History"
+    sql: ${TABLE}.id ;;
+    html: <a href="/explore/liquid-paulinag/order_items?fields=order_items.order_item_id, users.first_name, users.last_name, users.id, order_items.order_item_count, order_items.total_revenue&f[users.id]={{ value }}"><button>Order History</button></a> ;;
+  }
   dimension: country {
     type: string
     map_layer_name: countries
@@ -106,10 +112,5 @@ view: users {
   measure: count {
     type: count
     drill_fields: [id, first_name, last_name, orders.count]
-  }
-  dimension: order_history_button {
-    label: "Order History"
-    sql: ${TABLE}.id ;;
-    html: <a href="/explore/training_ecommerce/order_items?fields=order_items.order_item_id, users.first_name, users.last_name, users.id, order_items.order_item_count, order_items.total_revenue&f[users.id]={{ value }}"><button>Order History</button></a> ;;
   }
 }
