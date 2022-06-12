@@ -7,6 +7,17 @@ view: users {
   # This primary key is the unique key for this table in the underlying database.
   # You need to define a primary key in a view in order to join to other views.
 
+#Lab 2: Dynamic measure using templated filters
+  filter: select_traffic_source {
+    type: string
+    suggest_explore: order_items
+    suggest_dimension: users.traffic_source
+  }
+  dimension: hidden_traffic_source_filter {
+    hidden: yes
+    type: yesno
+    sql: {% condition select_traffic_source %} ${traffic_source} {% endcondition %} ;;
+  }
   dimension: id {
     primary_key: yes
     type: number
@@ -123,5 +134,11 @@ view: users {
   measure: count {
     type: count
     drill_fields: [id, first_name, last_name, orders.count]
+  }
+  # Part of : Lab 2: Dynamic measure using templated filters
+  measure: dynamic_count {
+    type: count_distinct
+    sql: ${id} ;;
+    filters: [ hidden_traffic_source_filter: "Yes" ]
   }
 }
