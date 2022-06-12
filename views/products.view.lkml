@@ -7,6 +7,24 @@ view: products {
   # This primary key is the unique key for this table in the underlying database.
   # You need to define a primary key in a view in order to join to other views.
 
+#Lab 2: Dynamic dimension using template filters
+  filter: select_category {
+    type: string
+    suggest_explore: order_items
+    suggest_dimension: products.category
+  }
+  dimension: category_comparison {
+    type: string
+    sql:
+      CASE
+      WHEN {% condition select_category %}
+        ${category}
+        {% endcondition %}
+      THEN ${category}
+      ELSE 'All Other Categories'
+      END
+      ;;
+  }
   dimension: id {
     primary_key: yes
     type: number
