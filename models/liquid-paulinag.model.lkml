@@ -30,6 +30,11 @@ explore: inventory_items {
 }
 
 explore: order_items {
+  join:sql_runner_query_0 {
+    type: left_outer
+    sql_on: ${orders.user_id} = ${sql_runner_query_0.user_id};;
+    relationship: many_to_one
+  }
   join: orders {
     type: left_outer
     sql_on: ${order_items.order_id} = ${orders.id} ;;
