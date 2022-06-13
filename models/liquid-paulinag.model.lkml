@@ -35,6 +35,11 @@ explore: order_items {
     sql_on: ${orders.user_id} = ${sql_runner_query_0.user_id};;
     relationship: many_to_one
   }
+  join: brand_order_facts {
+    type: left_outer
+    sql_on: ${products.brand} = ${brand_order_facts.brand} ;;
+    relationship: many_to_one
+  }
   join: orders {
     type: left_outer
     sql_on: ${order_items.order_id} = ${orders.id} ;;
