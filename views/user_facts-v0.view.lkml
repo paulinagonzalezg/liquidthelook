@@ -12,9 +12,15 @@ view: sql_runner_query_0 {
           JOIN
               public.orders  AS t1
               ON t0.order_id = t1.id
+      WHERE {% condition select_date %} orders.created_at {% endcondition %}
       GROUP BY
           t1.user_id
        ;;
+  }
+  filter: select_date {
+    type: date
+    suggest_explore: orders
+    suggest_dimension: orders.created_at
   }
 
   measure: count {
