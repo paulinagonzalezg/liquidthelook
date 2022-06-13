@@ -1,7 +1,9 @@
+include: location.view
 # The name of this view in Looker is "Users"
 view: users {
   # The sql_table_name parameter indicates the underlying database table
   # to be used for all fields in this view.
+  extends: [location]
   sql_table_name: public.users ;;
   drill_fields: [id]
   # This primary key is the unique key for this table in the underlying database.
@@ -62,11 +64,11 @@ view: users {
     sql: ${TABLE}.id ;;
     html: <a href="/explore/liquid-paulinag/order_items?fields=order_items.order_item_id, users.first_name, users.last_name, users.id, order_items.order_item_count, order_items.total_revenue&f[users.id]={{ value }}"><button>Order History</button></a> ;;
   }
-  dimension: country {
-    type: string
-    map_layer_name: countries
-    sql: ${TABLE}.country ;;
-  }
+  #dimension: country {
+   # type: string
+  #  map_layer_name: countries
+   # sql: ${TABLE}.country ;;
+ # }
   #Lab 1: same name logic link applies with the "order history button"
   dimension: state_link {
     type: string
@@ -116,20 +118,20 @@ view: users {
     sql: ${TABLE}.last_name ;;
   }
 
-  dimension: state {
-    type: string
-    sql: ${TABLE}.state ;;
-  }
+  #dimension: state {
+   # type: string
+   # sql: ${TABLE}.state ;;
+ # }
 
   dimension: traffic_source {
     type: string
     sql: ${TABLE}.traffic_source ;;
   }
 
-  dimension: zip {
-    type: zipcode
-    sql: ${TABLE}.zip ;;
-  }
+  #dimension: zip {
+   # type: zipcode
+    #sql: ${TABLE}.zip ;;
+  #}
 
   measure: count {
     type: count
