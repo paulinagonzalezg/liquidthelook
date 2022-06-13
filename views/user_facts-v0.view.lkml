@@ -39,6 +39,15 @@ view: sql_runner_query_0 {
     sql: ${TABLE}.lifetime_revenue ;;
   }
 
+  measure: average_lifetime_revenue {
+    type: average
+    sql: ${TABLE}.lifetime_revenue ;;
+  }
+  measure: average_lifetime_order_count {
+    type: average
+    sql: ${TABLE}.lifetime_order_count ;;
+  }
+
   dimension_group: first_order_date {
     type: time
     sql: ${TABLE}.first_order_date ;;
