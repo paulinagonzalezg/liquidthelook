@@ -1,6 +1,6 @@
 # If necessary, uncomment the line below to include explore_source.
 # include: "liquid-paulinag.model.lkml"
-
+#LAB 4: Answering Complex Questions Using Native Derived Tables with LookML
 view: brand_order_facts {
   derived_table: {
     explore_source: order_items {
@@ -9,6 +9,7 @@ view: brand_order_facts {
       derived_column: brand_rank {
       sql: row_number() over (order by total_revenue desc) ;;
       }
+      bind_all_filters: yes
     }
   }
   dimension: brand_rank {
