@@ -6,7 +6,13 @@ view: brand_order_facts {
     explore_source: order_items {
       column: brand { field: products.brand }
       column: total_revenue {}
+      derived_column: brand_rank {
+      sql: row_number() over (order by total_revenue desc) ;;
+      }
     }
+  }
+  dimension: brand_rank {
+    type: number
   }
   dimension: brand {}
   dimension: total_revenue {
