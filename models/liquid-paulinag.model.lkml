@@ -83,23 +83,27 @@ explore: product_facts {
   }
 }
 explore: events {
-  join: event_session_facts {
-    type: left_outer
-    sql_on: ${events.session_id} = ${event_session_facts.session_id} ;;
-    relationship: many_to_one
-  }
+  description: "Start here for Event analysis"
+  fields: [ALL_FIELDS*]
+  from: events
+  view_name: events
+  extends: [base_events]
+  #join: event_session_facts {
+    #type: left_outer
+    #sql_on: ${events.session_id} = ${event_session_facts.session_id} ;;
+   # relationship: many_to_one
+ # }
   join: event_session_funnel {
     type: left_outer
     sql_on: ${events.session_id} = ${event_session_funnel.session_id} ;;
     relationship: many_to_one
   }
-  join: users {
-    type: left_outer
-    sql_on: ${events.user_id} = ${users.id} ;;
-    relationship: many_to_one
-  }
+  #join: users {
+    #type: left_outer
+    #sql_on: ${events.user_id} = ${users.id} ;;
+    #relationship: many_to_one
+  #}
 }
-
 explore: base_events {
   extension: required
   join: event_session_facts {
@@ -112,7 +116,21 @@ explore: base_events {
     sql_on: ${events.user_id} = ${users.id} ;;
     relationship: many_to_one
   }
+
 }
+explore: conversions {
+  description: "Start here for Conversion Analysis"
+  fields: [ALL_FIELDS*, -orders.count]
+  from: events
+  view_name: events
+  extends: [base_events]
+  join: orders {
+    type: left_outer
+    sql_on: ${users.id} = ${orders.user_id} ;;
+    relationship: many_to_many
+  }
+}
+
 # To create more sophisticated Explores that involve multiple views, you can use the join parameter.
 # Typically, join parameters require that you define the join type, join relationship, and a sql_on clause.
 # Each joined view also needs to define a primary key.
